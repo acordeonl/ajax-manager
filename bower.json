@@ -4,7 +4,7 @@
     "acordeonl <admin@acorde.onl>"
   ],
   "description": "",
-  "main": "drop-menu.html",
+  "main": "ajax-manager.html",
   "keywords": [
     "web-components",
     "polymer"
