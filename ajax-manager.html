@@ -30,7 +30,7 @@ For an overlayed drop menu:
 <dom-module id="ajax-manager">
     <template>
         <style></style>
-        <iron-ajax id="ajax" url="http://localhost:3000/data/{{request}}.json" handle-as="json" last-response="{{response}}" loading="{{loading}}" on-response="_didRespond"></iron-ajax>
+        <iron-ajax id="ajax" url="/data/{{request}}.json" handle-as="json" last-response="{{response}}" loading="{{loading}}" on-response="_didRespond"></iron-ajax>
         <iron-localstorage name="{{request}}" value="{{response}}" on-iron-localstorage-load-empty="_initializeDefaultResponse"></iron-localstorage>
     </template>
     <script>
