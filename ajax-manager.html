@@ -1,32 +1,9 @@
-<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../polymer/lib/utils/render-status.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="../iron-localstorage/iron-localstorage.html">
 <script src="./vars.js"></script>
-<!--
 
-Shows drop down menu (works on chrome)
-
-### Usage
-The list displayed in the drop down menu can be set as an attribute.
-
-    <drop-menu list-items='["first" ,"second"]'></drop-menu>
-
-For an overlayed drop menu:
-
-    <drop-menu overlay-menu list-items='["first" ,"second"]'></drop-menu>
-
-### Styling
- Custom property | Description | Default
-----------------|-------------|----------
-`--item-background-color` | List item backround color | `#f1ecef`
-`--item-color` | List item color used for fonts | `#302f31`
-`--close-color` | Icon button hover color | `4775D1`
-`--content-background` | Drop menu's background color | `white`
-`--close-color` | Icon button hover color | `4775D1`
-`--icon-button` | Mixin applied the icon button | `{}`
-
-@demo demo/drop-menu-demo.html
--->
 <dom-module id="ajax-manager">
     <template>
         <style></style>
@@ -34,33 +11,23 @@ For an overlayed drop menu:
         <iron-localstorage name="{{request}}" value="{{response}}" on-iron-localstorage-load-empty="_initializeDefaultResponse"></iron-localstorage>
     </template>
     <script>
-        Polymer({
-            is: "ajax-manager",
-            observers: [],
-            behaviors: [],
-            listeners: {},
-            properties: {
-                request:{
-                    type:String,
-                    observer:'update'
-                },
-                response: {
-                    type: Object,
-                    notify: true
-                },
-                loading: {
-                    type: Boolean,
-                    value: false,
-                    notify: true
-                }
-            },
-            _initializeDefaultResponse: function () {
+        class AjaxManager extends Polymer.Element {
+            static get is() { return 'ajax-manager'; }
+            static get properties() {return {
+                request:{type:String,observer:'update'},
+                response: {type: Object,notify: true},
+                loading: {type: Boolean,value: false,notify: true}
+            }}
+            constructor() {
+                super();
+            }
+            _initializeDefaultResponse () {
                 this.response = {list:[]};
-            },
-            _didRespond: function (e) {
+            }
+            _didRespond (e) {
                 this.loading = false;
-            },
-            update: function () {
+            }
+            update () {
                 if (this.request !== undefined && this.request !== "") {
                     if (JSONResults[this.request] === undefined) {
                         JSONResults[this.request] = "requesting";
@@ -68,12 +35,14 @@ For an overlayed drop menu:
                         this.$.ajax.generateRequest();
                     }
                 }
-            },
-            ready: function () {
+            }
+            ready() {
+                super.ready() ;
                 Polymer.RenderStatus.afterNextRender(this, function () {
                     this.update();
                 });
             }
-        });
+        }
+        customElements.define('ajax-manager', AjaxManager);
     </script>
 </dom-module>
